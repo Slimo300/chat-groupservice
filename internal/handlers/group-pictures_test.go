@@ -53,7 +53,7 @@ func (s *GroupPicturesTestSuite) SetupSuite() {
 	s.server = handlers.NewServer(db, storage, nil)
 }
 
-func (s GroupPicturesTestSuite) TestDeleteGroupProfilePicture() {
+func (s *GroupPicturesTestSuite) TestDeleteGroupProfilePicture() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -118,14 +118,16 @@ func (s GroupPicturesTestSuite) TestDeleteGroupProfilePicture() {
 			s.Equal(tC.expectedStatusCode, response.StatusCode)
 
 			var msg gin.H
-			json.NewDecoder(response.Body).Decode(&msg)
+			if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+				s.Fail(err.Error())
+			}
 
 			s.Equal(tC.expectedResponse, msg)
 		})
 	}
 }
 
-func (s GroupPicturesTestSuite) TestSetGroupProfilePicture() {
+func (s *GroupPicturesTestSuite) TestSetGroupProfilePicture() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -229,7 +231,9 @@ func (s GroupPicturesTestSuite) TestSetGroupProfilePicture() {
 			s.Equal(tC.expectedStatusCode, response.StatusCode)
 
 			var msg gin.H
-			json.NewDecoder(response.Body).Decode(&msg)
+			if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+				s.Fail(err.Error())
+			}
 
 			if !tC.setBodyLimiter {
 				s.Equal(tC.expectedResponse, msg)

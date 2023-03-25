@@ -66,7 +66,7 @@ func (s *MembersTestSuite) SetupSuite() {
 	s.server.Emitter = emitter
 }
 
-func (s MembersTestSuite) TestGrantPriv() {
+func (s *MembersTestSuite) TestGrantPriv() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -172,14 +172,16 @@ func (s MembersTestSuite) TestGrantPriv() {
 			s.Equal(tC.expectedStatusCode, response.StatusCode)
 
 			var msg gin.H
-			json.NewDecoder(response.Body).Decode(&msg)
+			if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+				s.Fail(err.Error())
+			}
 
 			s.Equal(tC.expectedResponse, msg)
 		})
 	}
 }
 
-func (s MembersTestSuite) TestDeleteMember() {
+func (s *MembersTestSuite) TestDeleteMember() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -266,14 +268,16 @@ func (s MembersTestSuite) TestDeleteMember() {
 			s.Equal(tC.expectedStatusCode, response.StatusCode)
 
 			var msg gin.H
-			json.NewDecoder(response.Body).Decode(&msg)
+			if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+				s.Fail(err.Error())
+			}
 
 			s.Equal(tC.expectedResponse, msg)
 		})
 	}
 }
 
-func (s MembersTestSuite) TestDeleteGroup() {
+func (s *MembersTestSuite) TestDeleteGroup() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -332,7 +336,9 @@ func (s MembersTestSuite) TestDeleteGroup() {
 			s.Equal(tC.expectedStatusCode, response.StatusCode)
 
 			var msg gin.H
-			json.NewDecoder(response.Body).Decode(&msg)
+			if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+				s.Fail(err.Error())
+			}
 
 			s.Equal(tC.expectedResponse, msg)
 		})

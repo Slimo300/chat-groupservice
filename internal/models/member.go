@@ -47,10 +47,7 @@ func (m Member) CanDelete(target Member) bool {
 }
 
 func (m Member) CanAlter(target Member) bool {
-	if m.role(true) < target.role(true) {
-		return true
-	}
-	return false
+	return m.role(true) < target.role(true)
 }
 
 func (m Member) role(noDeleter bool) role {

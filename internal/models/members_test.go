@@ -31,7 +31,7 @@ func (s *MemberTestSuite) SetupSuite() {
 	s.creator2 = models.Member{ID: uuid.New(), Creator: true}
 }
 
-func (s MemberTestSuite) TestCanDelete() {
+func (s *MemberTestSuite) TestCanDelete() {
 	s.True(s.creator.CanDelete(s.basic))
 	s.True(s.creator.CanDelete(s.deleter))
 	s.True(s.creator.CanDelete(s.admin))
@@ -58,7 +58,7 @@ func (s MemberTestSuite) TestCanDelete() {
 	s.False(s.creator.CanDelete(s.creator))
 }
 
-func (s MemberTestSuite) TestCanAlter() {
+func (s *MemberTestSuite) TestCanAlter() {
 	s.True(s.creator.CanAlter(s.basic))
 	s.True(s.creator.CanAlter(s.deleter))
 	s.True(s.creator.CanAlter(s.admin))
@@ -80,30 +80,38 @@ func (s MemberTestSuite) TestCanAlter() {
 	s.False(s.basic.CanAlter(s.creator))
 }
 
-func (s MemberTestSuite) TestApplyRights() {
+func (s *MemberTestSuite) TestApplyRights() {
 	s.False(s.basic.Adding)
 
-	s.basic.ApplyRights(models.MemberRights{
+	if err := s.basic.ApplyRights(models.MemberRights{
 		Adding: 1,
-	})
+	}); err != nil {
+		s.Fail(err.Error())
+	}
 	s.True(s.basic.Adding)
 
-	s.basic.ApplyRights(models.MemberRights{
+	if err := s.basic.ApplyRights(models.MemberRights{
 		Adding: -1,
-	})
+	}); err != nil {
+		s.Fail(err.Error())
+	}
 	s.False(s.basic.Adding)
 
-	s.basic.ApplyRights(models.MemberRights{
+	if err := s.basic.ApplyRights(models.MemberRights{
 		Adding: 0,
-	})
+	}); err != nil {
+		s.Fail(err.Error())
+	}
 	s.False(s.basic.Adding)
 
-	s.admin.ApplyRights(models.MemberRights{
+	if err := s.admin.ApplyRights(models.MemberRights{
 		Adding:           1,
 		DeletingMessages: 0,
 		DeletingMembers:  -1,
 		Admin:            -1,
-	})
+	}); err != nil {
+		s.Fail(err.Error())
+	}
 	s.True(s.admin.Adding)
 	s.False(s.admin.DeletingMessages)
 	s.False(s.admin.DeletingMembers)

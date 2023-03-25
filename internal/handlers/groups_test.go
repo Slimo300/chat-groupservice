@@ -55,7 +55,7 @@ func (s *GroupTestSuite) SetupSuite() {
 	s.server.Emitter = emitter
 }
 
-func (s GroupTestSuite) TestGetUserGroups() {
+func (s *GroupTestSuite) TestGetUserGroups() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -104,7 +104,9 @@ func (s GroupTestSuite) TestGetUserGroups() {
 
 			if tC.returnVal {
 				respBody := []models.Group{}
-				json.NewDecoder(response.Body).Decode(&respBody)
+				if err := json.NewDecoder(response.Body).Decode(&respBody); err != nil {
+					s.Fail(err.Error())
+				}
 
 				s.Equal(respBody, tC.expectedResponse)
 			}
@@ -112,7 +114,7 @@ func (s GroupTestSuite) TestGetUserGroups() {
 	}
 }
 
-func (s GroupTestSuite) TestCreateGroup() {
+func (s *GroupTestSuite) TestCreateGroup() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -172,11 +174,15 @@ func (s GroupTestSuite) TestCreateGroup() {
 			var respBody interface{}
 			if tC.returnVal {
 				group := models.Group{}
-				json.NewDecoder(response.Body).Decode(&group)
+				if err := json.NewDecoder(response.Body).Decode(&group); err != nil {
+					s.Fail(err.Error())
+				}
 				respBody = group
 			} else {
 				var msg gin.H
-				json.NewDecoder(response.Body).Decode(&msg)
+				if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+					s.Fail(err.Error())
+				}
 				respBody = msg
 			}
 

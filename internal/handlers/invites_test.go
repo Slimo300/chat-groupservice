@@ -71,7 +71,7 @@ func (s *InvitesTestSuite) SetupSuite() {
 
 }
 
-func (s InvitesTestSuite) TestGetUserInvites() {
+func (s *InvitesTestSuite) TestGetUserInvites() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -113,14 +113,16 @@ func (s InvitesTestSuite) TestGetUserInvites() {
 			s.Equal(tC.expectedStatusCode, response.StatusCode)
 
 			respBody := []models.Invite{}
-			json.NewDecoder(response.Body).Decode(&respBody)
+			if err := json.NewDecoder(response.Body).Decode(&respBody); err != nil {
+				s.Fail(err.Error())
+			}
 
 			s.Equal(tC.expectedResponse, respBody)
 		})
 	}
 }
 
-func (s InvitesTestSuite) TestSendGroupInvite() {
+func (s *InvitesTestSuite) TestSendGroupInvite() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -212,11 +214,15 @@ func (s InvitesTestSuite) TestSendGroupInvite() {
 
 			if tC.returnVal {
 				var invite models.Invite
-				json.NewDecoder(response.Body).Decode(&invite)
+				if err := json.NewDecoder(response.Body).Decode(&invite); err != nil {
+					s.Fail(err.Error())
+				}
 				respBody = invite
 			} else {
 				var msg gin.H
-				json.NewDecoder(response.Body).Decode(&msg)
+				if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+					s.Fail(err.Error())
+				}
 				respBody = msg
 			}
 
@@ -225,7 +231,7 @@ func (s InvitesTestSuite) TestSendGroupInvite() {
 	}
 }
 
-func (s InvitesTestSuite) TestRespondGroupInvite() {
+func (s *InvitesTestSuite) TestRespondGroupInvite() {
 	gin.SetMode(gin.TestMode)
 
 	testCases := []struct {
@@ -324,7 +330,9 @@ func (s InvitesTestSuite) TestRespondGroupInvite() {
 			var respBody interface{}
 			if tC.returnVal {
 				var msg gin.H
-				json.NewDecoder(response.Body).Decode(&msg)
+				if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+					s.Fail(err.Error())
+				}
 
 				inviteAsInterface, ok := msg["invite"]
 				if !ok {
@@ -358,7 +366,9 @@ func (s InvitesTestSuite) TestRespondGroupInvite() {
 
 			} else {
 				var msg gin.H
-				json.NewDecoder(response.Body).Decode(&msg)
+				if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+					s.Fail(err.Error())
+				}
 				respBody = msg
 			}
 
