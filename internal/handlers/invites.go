@@ -77,7 +77,7 @@ func (s *Server) CreateInvite(c *gin.Context) {
 		return
 	}
 
-	s.Emitter.Emit(events.InviteSentEvent{
+	_ = s.Emitter.Emit(events.InviteSentEvent{
 		ID:       invite.ID,
 		IssuerID: invite.IssId,
 		Issuer: events.User{
@@ -126,7 +126,7 @@ func (s *Server) RespondGroupInvite(c *gin.Context) {
 	}
 
 	if member != nil {
-		s.Emitter.Emit(events.MemberCreatedEvent{
+		_ = s.Emitter.Emit(events.MemberCreatedEvent{
 			ID:      member.ID,
 			GroupID: member.GroupID,
 			UserID:  member.UserID,
@@ -142,7 +142,7 @@ func (s *Server) RespondGroupInvite(c *gin.Context) {
 		})
 	}
 	if invite != nil {
-		s.Emitter.Emit(events.InviteRespondedEvent{
+		_ = s.Emitter.Emit(events.InviteRespondedEvent{
 			ID:       invite.ID,
 			IssuerID: invite.IssId,
 			TargetID: invite.TargetID,

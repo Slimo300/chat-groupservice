@@ -58,7 +58,7 @@ func (s *Server) CreateGroup(c *gin.Context) {
 		return
 	}
 
-	s.Emitter.Emit(events.MemberCreatedEvent{
+	_ = s.Emitter.Emit(events.MemberCreatedEvent{
 		ID:      group.Members[0].ID,
 		GroupID: group.ID,
 		UserID:  userUID,
@@ -96,7 +96,7 @@ func (s *Server) DeleteGroup(c *gin.Context) {
 		}
 	}
 
-	s.Emitter.Emit(events.GroupDeletedEvent{
+	_ = s.Emitter.Emit(events.GroupDeletedEvent{
 		ID: group.ID,
 	})
 

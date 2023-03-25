@@ -47,7 +47,7 @@ func (s *Server) GrantPriv(c *gin.Context) {
 	}
 
 	if member != nil {
-		s.Emitter.Emit(events.MemberUpdatedEvent{
+		_ = s.Emitter.Emit(events.MemberUpdatedEvent{
 			ID:      member.ID,
 			GroupID: member.GroupID,
 			UserID:  member.UserID,
@@ -91,7 +91,7 @@ func (s *Server) DeleteUserFromGroup(c *gin.Context) {
 		return
 	}
 
-	s.Emitter.Emit(events.MemberDeletedEvent{ID: member.ID, GroupID: member.GroupID, UserID: member.UserID})
+	_ = s.Emitter.Emit(events.MemberDeletedEvent{ID: member.ID, GroupID: member.GroupID, UserID: member.UserID})
 
 	c.JSON(http.StatusOK, gin.H{"message": "member deleted"})
 }

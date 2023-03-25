@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -113,7 +114,7 @@ func (s *InvitesTestSuite) TestGetUserInvites() {
 			s.Equal(tC.expectedStatusCode, response.StatusCode)
 
 			respBody := []models.Invite{}
-			if err := json.NewDecoder(response.Body).Decode(&respBody); err != nil {
+			if err := json.NewDecoder(response.Body).Decode(&respBody); err != nil && err != io.EOF {
 				s.Fail(err.Error())
 			}
 

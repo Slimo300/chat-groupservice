@@ -230,13 +230,21 @@ func (s *GroupPicturesTestSuite) TestSetGroupProfilePicture() {
 
 			s.Equal(tC.expectedStatusCode, response.StatusCode)
 
-			var msg gin.H
-			if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
-				s.Fail(err.Error())
+			var respBody interface{}
+			if tC.setBodyLimiter {
+				if n, err := response.Body.Read([]byte{}); err != nil || n != 0 {
+					s.Fail("Response should be empty whe 413 status is returned")
+				}
+			} else {
+				var msg gin.H
+				if err := json.NewDecoder(response.Body).Decode(&msg); err != nil {
+					s.Fail(err.Error())
+				}
+				respBody = msg
 			}
 
 			if !tC.setBodyLimiter {
-				s.Equal(tC.expectedResponse, msg)
+				s.Equal(tC.expectedResponse, respBody)
 			}
 		})
 	}
