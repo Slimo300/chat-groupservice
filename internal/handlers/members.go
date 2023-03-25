@@ -3,9 +3,9 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/Slimo300/MicroservicesChatApp/backend/group-service/models"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/apperrors"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/events"
+	"github.com/Slimo300/chat-groupservice/internal/models"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Slimo300/MicroservicesChatApp/backend/group-service/models"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/apperrors"
+	"github.com/Slimo300/chat-groupservice/internal/models"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )

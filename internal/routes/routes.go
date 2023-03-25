@@ -1,7 +1,8 @@
 package routes
 
 import (
-	"github.com/Slimo300/MicroservicesChatApp/backend/group-service/handlers"
+	"github.com/Slimo300/chat-groupservice/internal/handlers"
+	tokens "github.com/Slimo300/chat-tokenservice/pkg/client"
 	limits "github.com/gin-contrib/size"
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +15,7 @@ func Setup(server *handlers.Server, origin string) *gin.Engine {
 
 	api := engine.Group("/groups")
 	api.Use(limits.RequestSizeLimiter(server.MaxBodyBytes))
-	apiAuth := api.Use(server.MustAuth())
+	apiAuth := api.Use(tokens.MustAuth(server.TokenClient))
 
 	apiAuth.GET("/group", server.GetUserGroups)
 	apiAuth.POST("/group", server.CreateGroup)

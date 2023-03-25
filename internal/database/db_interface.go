@@ -1,8 +1,8 @@
 package database
 
 import (
-	"github.com/Slimo300/MicroservicesChatApp/backend/group-service/models"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/events"
+	"github.com/Slimo300/chat-groupservice/internal/models"
 	"github.com/google/uuid"
 )
 

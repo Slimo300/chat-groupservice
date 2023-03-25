@@ -6,7 +6,7 @@ import (
 	events "github.com/Slimo300/MicroservicesChatApp/backend/lib/events"
 	mock "github.com/stretchr/testify/mock"
 
-	models "github.com/Slimo300/MicroservicesChatApp/backend/group-service/models"
+	models "github.com/Slimo300/chat-groupservice/internal/models"
 
 	uuid "github.com/google/uuid"
 )

@@ -1,8 +1,8 @@
 package orm
 
 import (
-	"github.com/Slimo300/MicroservicesChatApp/backend/group-service/models"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/events"
+	"github.com/Slimo300/chat-groupservice/internal/models"
 )
 
 func (db *Database) NewUser(event events.UserRegisteredEvent) error {

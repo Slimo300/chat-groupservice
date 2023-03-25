@@ -7,10 +7,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	dbmock "github.com/Slimo300/MicroservicesChatApp/backend/group-service/database/mock"
-	"github.com/Slimo300/MicroservicesChatApp/backend/group-service/handlers"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/apperrors"
 	"github.com/Slimo300/MicroservicesChatApp/backend/lib/storage"
+	dbmock "github.com/Slimo300/chat-groupservice/internal/database/mock"
+	"github.com/Slimo300/chat-groupservice/internal/handlers"
 	limits "github.com/gin-contrib/size"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
